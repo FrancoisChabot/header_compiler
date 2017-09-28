@@ -1,2 +1,42 @@
 # header_compiler
-Simple python script to compile c++ header-only libraries into a single file
+
+Simple python script to compile c++ libraries header into a single file. 
+
+The script makes a few assumptions:
+
+1. System headers are included using the `<library>` notation.
+2. Every single header needed by the library can be found.
+3. Include behavior is not dependant on any preprocessing.
+4. If a file has `#ifndef` and `#define` at the top, as well as `#endif` at the bottom, then that's a header guard.
+
+
+## Usage
+
+### From the command line
+
+```bash
+cd my_project/include
+python ../path/to/header_compiler.py --input="my_project.h" \
+  --output="my_project_single.h"  \
+  --notice="path/to/copyright/notice" \
+  --header_guard="MY_PROJECT_SINGLE_HEADER_H"
+```
+
+### In cmake
+
+```cmake
+
+SET(ALL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/include/my_project/my_project_all.h)
+
+add_custom_command(
+  OUTPUT ${ALL_FILE}
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include
+  DEPENDS ${GLOB_OF_ALL_HEADERS} 
+  COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/scripts/compile_headers.py 
+    --output=${ALL_FILE}
+    --notice=${CMAKE_CURRENT_SOURCE_DIR}/misc/notice.txt
+    --header_guard="MY_PROJECT_HEADER_GUARD_H_"
+    --input=${CMAKE_CURRENT_SOURCE_DIR}/include/my_project/my_project.h)
+
+add_custom_target(generate_all_include ALL DEPENDS ${ALL_FILE})
+```
