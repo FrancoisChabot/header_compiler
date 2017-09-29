@@ -1,6 +1,12 @@
 # header_compiler
 
-Simple python script to compile c++ libraries header into a single file. 
+Simple python script to compile c++ libraries header into a single file. You can check out [Abulafia](https://github.com/FrancoisChabot/abulafia) to see this in action (results are in `include/abulafia/abulafia_all.h`)
+
+## Why?
+
+This came to be specifically for use with [Compiler Explorer](https://godbolt.org/), which lets you `#include` from http. Using this script allows an arbitrary header-only library to quickly get compiled to a file that can be served like so: [Example](https://godbolt.org/g/jP8rf8)
+
+## Requirements
 
 The script makes a few assumptions:
 
@@ -9,6 +15,10 @@ The script makes a few assumptions:
 3. Include behavior is not dependant on any preprocessing.
 4. If a file has `#ifndef` and `#define` at the top, as well as `#endif` at the bottom, then that's a header guard.
 
+## Drawbacks:
+
+1. Does not handle C-Style comments (doesn;t really matter, only.
+2. Does not handle non-system external dependencies.
 
 ## Usage
 
