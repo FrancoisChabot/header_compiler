@@ -19,6 +19,7 @@ The script makes a few assumptions:
 
 1. Does not handle C-Style comments (doesn;t really matter, only.
 2. Does not handle non-system external dependencies.
+3. The stripping out of the comments can be problematic for projects with mixed licenses and copyrights. Currently you have to reconciliate it manually in the notice file.
 
 ## Usage
 
