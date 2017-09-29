@@ -11,9 +11,10 @@ This came to be specifically for use with [Compiler Explorer](https://godbolt.or
 The script makes a few assumptions:
 
 1. System headers are included using the `<library>` notation.
-2. Every single header needed by the library can be found.
-3. Include behavior is not dependant on any preprocessing.
-4. If a file has `#ifndef` and `#define` at the top, as well as `#endif` at the bottom, then that's a header guard.
+2. Every single header needed by the library can be found relative to the current working directory.
+3. The library has a single global header entry-point.
+4. Include behavior is not dependant on any preprocessing.
+5. If a file has `#ifndef` and `#define` at the top, as well as `#endif` at the bottom, then that's a header guard.
 
 ## Drawbacks:
 
