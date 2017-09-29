@@ -1,6 +1,6 @@
 # header_compiler
 
-Simple python script to compile c++ libraries header into a single file. You can check out [Abulafia](https://github.com/FrancoisChabot/abulafia) to see this in action (results are in `include/abulafia/abulafia_all.h`)
+Simple python script to compile c++ library headers into a single file. You can check out [Abulafia](https://github.com/FrancoisChabot/abulafia) to see this in action (results are in `include/abulafia/abulafia_all.h`)
 
 ## Why?
 
