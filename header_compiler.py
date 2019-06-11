@@ -7,11 +7,16 @@ parser.add_argument('--output', help='where to save the result', required=True)
 parser.add_argument('--input', help='the root header to load', required=True)
 parser.add_argument('--notice', help='copyright notice file', required=True)
 parser.add_argument('--header_guard', help='Header guard', required=True)
+parser.add_argument('--ignore', nargs='+', help='headers_to_ignore', required=True)
+
 args = parser.parse_args()
 
 loaded_files = set()
 includes = set()
 
+ignore_list = args.ignore
+
+print(ignore_list)
 header_guard = args.header_guard
 copyright_notice = ''
 
@@ -47,21 +52,20 @@ def process(file):
 
       processed = processed[2:-1]
 
-    done_with_includes = False
     for line in processed:
       stripped = line.strip()
       if stripped.startswith("#include"):
-        if done_with_includes:
-          raise ValueError('There is an include after code has started')
         path = stripped[8:].strip()
         #all non-sysem includes belong in here.
         if path.startswith('"'):
-          r = process(path[1:-1])
-          result.extend(r)
+          if path[1:-1] in ignore_list:
+            includes.add(line)
+          else:
+            r = process(path[1:-1])      
+            result.extend(r)
         else:
           includes.add(line)
       else:
-        done_with_includes = True
         result.append(line)
 
   result.append("")
@@ -73,7 +77,7 @@ with open(args.output, 'w') as destination:
   print(copyright_notice, file=destination)
   print('#ifndef {}'.format(header_guard), file=destination)
   print('#define {}'.format(header_guard), file=destination)
-  
+  print("", file=destination)
   for h in sorted(includes):
     print(h, file=destination)
   
